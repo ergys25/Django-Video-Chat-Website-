@@ -1,3 +1,62 @@
+:root{
+    --shaddow:0 4px 6px -1px rgba(0,0,0,0.1),0 2px 4px -1px rgba(0,0,0,0.06);
+}
+
+
+
+*{
+    font-family: 'Roboto Mono';
+
+}
 body{
-    background-color: aquamarine;
+    background-color: #011627;
+}
+
+
+#logo{
+    display: block;
+    width: 100px;
+    margin: 0 auto;
+    font-family: 'Roboto Mono';
+
+}
+
+#form-container{
+    width: 400px;
+    box-shadow: var(--shaddow);
+    background-color: #fdfffc;
+    padding: 30px;
+    border-radius: 5px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+}
+/* --- Room Styling ---*/
+
+
+#video-streams{
+    display: flex;
+    flex-wrap: wrap;
+    height: 85vh;
+    width: 75%;
+    margin: 0 auto;
+
+}
+
+.video-container{
+    flex-basis: 500px;
+    flex-grow: 1;
+    max-height: 100%;
+    min-height: 350px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    margin: 2px;
+    background-color: #2a9d8f;
+
+}
+.video-player{
+    height: 100%;
+    width: 100%;
 }
