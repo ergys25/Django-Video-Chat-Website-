@@ -5,6 +5,7 @@ import random
 import time
 import json
 from .models import RoomMember
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def lobby(request):
@@ -15,8 +16,8 @@ def room(request):
 
 
 def getToken(request):
-    appId = ''
-    appCertificate = ''
+    appId = '8599e65a8a8e4016901d90ef7b289421'
+    appCertificate = '91a903668292465ca07e0ae342b594a3'
     channelName = request.GET.get('channel')
     uid = random.randint(1, 230)
     expirationTimeInSeconds = 3600
@@ -29,10 +30,36 @@ def getToken(request):
     return JsonResponse({'token': token, 'uid': uid}, safe=False)
 
 
-
-def createUser(request):
+@csrf_exempt
+def createMember(request):
     data = json.loads(request.body)
+    member, created = RoomMember.objects.get_or_create(
+        name=data['name'],
+        uid=data['UID'],
+        room_name=data['room_name']
+    )
+
+    return JsonResponse({'name':data['name']}, safe=False)
 
 
-    member, created = RoomMember.objects.get_or_created
-    return JsonResponse()
+def getMember(request):
+    uid = request.GET.get('UID')
+    room_name = request.GET.get('room_name')
+
+    member = RoomMember.objects.get(
+        uid=uid,
+        room_name=room_name,
+    )
+    name = member.name
+    return JsonResponse({'name':member.name}, safe=False)
+
+@csrf_exempt
+def deleteMember(request):
+    data = json.loads(request.body)
+    member = RoomMember.objects.get(
+        name=data['name'],
+        uid=data['UID'],
+        room_name=data['room_name']
+    )
+    member.delete()
+    return JsonResponse('Member deleted', safe=False)
