@@ -3,6 +3,8 @@ from agora_token_builder import RtcTokenBuilder
 from django.http import JsonResponse
 import random
 import time
+import json
+from .models import RoomMember
 
 # Create your views here.
 def lobby(request):
@@ -13,8 +15,8 @@ def room(request):
 
 
 def getToken(request):
-    appId = '8599e65a8a8e4016901d90ef7b289421'
-    appCertificate = '91a903668292465ca07e0ae342b594a3'
+    appId = ''
+    appCertificate = ''
     channelName = request.GET.get('channel')
     uid = random.randint(1, 230)
     expirationTimeInSeconds = 3600
@@ -25,3 +27,12 @@ def getToken(request):
     token = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, role, privilegeExpiredTs)
 
     return JsonResponse({'token': token, 'uid': uid}, safe=False)
+
+
+
+def createUser(request):
+    data = json.loads(request.body)
+
+
+    member, created = RoomMember.objects.get_or_created
+    return JsonResponse()
